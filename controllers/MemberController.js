@@ -17,6 +17,14 @@ class MemberController {
 
   static async show(req, res) {
     const id = req.params.id;
+
+    if (!id || isNaN(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "id is required",
+      });
+    }
+
     const data = await User.findOne({
       where: { id: id },
       attributes: { exclude: ["password"] },
