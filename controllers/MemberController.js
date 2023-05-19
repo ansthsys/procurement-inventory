@@ -49,6 +49,7 @@ class MemberController {
     const lastData = await User.findOne({
       where: { username: { [Op.substring]: "MBR" } },
       attributes: ["username"],
+      order: [["id", "DESC"]],
     });
 
     const lastUsername = lastData.username.split("-")[1];
