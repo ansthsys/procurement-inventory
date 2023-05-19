@@ -111,7 +111,7 @@ class MemberController {
       });
     }
 
-    await User.update(
+    const data = await User.update(
       {
         name,
         password: bcrypt.hashSync(password, 8),
@@ -120,6 +120,13 @@ class MemberController {
       },
       { where: { id } }
     );
+
+    if (!data[0]) {
+      return res.status(400).json({
+        success: false,
+        message: "failed to update member",
+      });
+    }
 
     return res.status(200).json({
       success: true,
