@@ -84,6 +84,40 @@ class MemberController {
       data: { id: newID, email: newEmail },
     });
   }
+
+  static async update(req, res) {
+    const id = req.params.id;
+    const { name, password, role, status } = req.body;
+
+    if (!id || isNaN(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "id is required",
+      });
+    }
+
+    if (!name || !password || !role || !status) {
+      return res.status(400).json({
+        success: false,
+        message: "request body is requred",
+      });
+    }
+
+    await User.update(
+      {
+        name,
+        password: bcrypt.hashSync(password, 8),
+        role,
+        status,
+      },
+      { where: { id } }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "update member successfully",
+    });
+  }
 }
 
 module.exports = MemberController;
