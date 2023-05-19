@@ -126,6 +126,36 @@ class MemberController {
       message: "update member successfully",
     });
   }
+
+  static async destroy(req, res) {
+    const id = req.params.id;
+
+    if (!id || isNaN(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "id is required",
+      });
+    }
+
+    const data = await User.update(
+      {
+        status: "inactive",
+      },
+      { where: { id } }
+    );
+
+    if (!data[0]) {
+      return res.status(400).json({
+        success: false,
+        message: "failed to delete member",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "success delete member (inactive)",
+    });
+  }
 }
 
 module.exports = MemberController;
