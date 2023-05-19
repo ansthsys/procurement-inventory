@@ -67,7 +67,7 @@ class MemberController {
       });
     }
 
-    const data = await User.create({
+    const { id: newID, email: newEmail } = await User.create({
       name,
       username: newUsername,
       email,
@@ -81,7 +81,7 @@ class MemberController {
     return res.status(201).json({
       success: true,
       message: "new member created",
-      data,
+      data: { id: newID, email: newEmail },
     });
   }
 }
