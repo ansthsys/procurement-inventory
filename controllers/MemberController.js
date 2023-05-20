@@ -104,19 +104,23 @@ class MemberController {
       });
     }
 
-    if (!name || !password || !role || !status) {
-      return res.status(400).json({
+    const oldData = await User.findOne({
+      where: { id },
+    });
+
+    if (!oldData) {
+      return res.status(404).json({
         success: false,
-        message: "request body is requred",
+        message: "member not found",
       });
     }
-
+    console.log(bcrypt.hashSync(password, 8));
     const data = await User.update(
       {
-        name,
-        password: bcrypt.hashSync(password, 8),
-        role,
-        status,
+        name: name || oldData.name,
+        password: bcrypt.hashSync(password, 8) || oldData.password,
+        role: role || oldData.role,
+        status: status || oldData.status,
       },
       { where: { id } }
     );
