@@ -114,7 +114,7 @@ class MemberController {
         message: "member not found",
       });
     }
-    console.log(bcrypt.hashSync(password, 8));
+
     const data = await User.update(
       {
         name: name || oldData.name,
