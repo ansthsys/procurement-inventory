@@ -2,10 +2,20 @@ const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../../middlewares/auth");
 const adminMiddleware = require("../../middlewares/admin");
+const DashboardAdminController = require("../../controllers/DashboardAdminController");
 const MemberController = require("../../controllers/MemberController");
 
 /**
- * 
+ *  Dashboard for admin
+ */
+router.get(
+  "/admin",
+  authMiddleware,
+  adminMiddleware,
+  DashboardAdminController.index
+);
+
+/**
  *  Member management by admin
  */
 router.get(
