@@ -121,6 +121,7 @@ class MemberController {
         password: bcrypt.hashSync(password, 8) || oldData.password,
         role: role || oldData.role,
         status: status || oldData.status,
+        updatedAt: new Date(),
       },
       { where: { id } }
     );
@@ -151,6 +152,7 @@ class MemberController {
     const data = await User.update(
       {
         status: "inactive",
+        updatedAt: new Date(),
       },
       { where: { id } }
     );
