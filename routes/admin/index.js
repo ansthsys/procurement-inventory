@@ -49,4 +49,26 @@ router.delete(
   MemberController.destroy
 );
 
+/**
+ *  Procurement management by admin
+ */
+router.get(
+  "/admin/procurement",
+  authMiddleware,
+  adminMiddleware,
+  ProcurementController.index
+);
+router.get(
+  "/admin/procurement/:id",
+  authMiddleware,
+  adminMiddleware,
+  ProcurementController.show
+);
+router.put(
+  "/admin/procurement/:id/process",
+  authMiddleware,
+  adminMiddleware,
+  ProcurementController.process
+);
+
 module.exports = router;
