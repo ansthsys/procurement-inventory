@@ -2,8 +2,27 @@ const { User, Item } = require("../models");
 
 class ProcurementController {
   static async index(req, res) {
+    const { status } = req.query;
+    const allowedStatus = ["process", "approve", "reject"];
+
+    if (status && allowedStatus !== -1) {
+      const data = await Item.findAll({
+        where: { status },
+        include: {
+          model: User,
+          as: "user",
+          attributes: { exclude: ["password"] },
+        },
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: `get all data procurement with filter status = ${status}`,
+        data,
+      });
+    }
+
     const data = await Item.findAll({
-      where: { status: "process" },
       include: {
         model: User,
         as: "user",
