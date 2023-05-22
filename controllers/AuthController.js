@@ -28,6 +28,13 @@ class AuthController {
         });
       }
 
+      if (user.status === "inactive") {
+        return res.status(401).json({
+          success: false,
+          message: "Your account is inactive",
+        });
+      }
+
       const token = jwt.sign(
         {
           id: user.id,
