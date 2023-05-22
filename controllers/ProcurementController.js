@@ -127,12 +127,10 @@ class ProcurementController {
       });
     }
 
-    const newHistory = await History.create({
+    await History.create({
       itemId: id,
       reason,
     });
-
-    console.log(newHistory);
 
     return res.status(200).json({
       success: true,
