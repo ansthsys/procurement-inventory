@@ -4,6 +4,7 @@ const authMiddleware = require("../../middlewares/auth");
 const adminMiddleware = require("../../middlewares/admin");
 const DashboardAdminController = require("../../controllers/DashboardAdminController");
 const MemberController = require("../../controllers/MemberController");
+const ProcurementController = require("../../controllers/ProcurementController");
 
 /**
  *  Dashboard for admin
