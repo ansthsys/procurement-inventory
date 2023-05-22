@@ -1,4 +1,4 @@
-const { User, Item } = require("../models");
+const { User, Item, History } = require("../models");
 
 class ProcurementController {
   static async index(req, res) {
@@ -72,7 +72,7 @@ class ProcurementController {
 
   static async process(req, res) {
     const id = req.params.id;
-    const { status } = req.body;
+    const { status, reason } = req.body;
     const allowedProcess = ["approve", "reject"];
 
     if (!id || isNaN(id)) {
@@ -82,7 +82,7 @@ class ProcurementController {
       });
     }
 
-    if (!status) {
+    if (!status || !reason) {
       return res.status(400).json({
         success: false,
         message: "field body is required",
@@ -126,6 +126,13 @@ class ProcurementController {
         message: "failed to process item",
       });
     }
+
+    const newHistory = await History.create({
+      itemId: id,
+      reason,
+    });
+
+    console.log(newHistory);
 
     return res.status(200).json({
       success: true,
