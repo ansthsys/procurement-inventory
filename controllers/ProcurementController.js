@@ -75,6 +75,10 @@ class ProcurementController {
     const { status, reason } = req.body;
     const allowedProcess = ["approve", "reject"];
 
+    const pickupDate = new Date();
+    pickupDate.setDate(pickupDate.getDate() + 2);
+    pickupDate.toLocaleDateString("id-ID");
+
     if (!id || isNaN(id)) {
       return res.status(400).json({
         success: false,
@@ -115,6 +119,7 @@ class ProcurementController {
     const data = await Item.update(
       {
         status: status,
+        pickup_date: status === "approve" ? pickupDate : null,
         updatedAt: new Date(),
       },
       { where: { id } }
