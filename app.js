@@ -7,6 +7,7 @@ const forms = multer();
 
 const authRouter = require("./routes/auth");
 const adminRoute = require("./routes/admin");
+const memberRoute = require("./routes/member");
 
 app.use(forms.array());
 app.use(bodyParser.json());
@@ -16,5 +17,6 @@ app.use(cookieParser());
 
 app.use(authRouter);
 app.use(adminRoute);
+app.use(memberRoute);
 
 module.exports = app;
