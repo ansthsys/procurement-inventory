@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   Item.associate = function (models) {
     Item.belongsTo(models.User, { foreignKey: "userId", as: "user" });
+    Item.hasOne(models.History);
   };
   return Item;
 };
