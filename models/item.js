@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       description: DataTypes.TEXT,
       url_request: DataTypes.TEXT,
       status: DataTypes.ENUM("process", "approve", "reject"),
-      pickup_date: DataTypes.DATE,
+      due_date: DataTypes.DATE,
     },
     {
       sequelize,

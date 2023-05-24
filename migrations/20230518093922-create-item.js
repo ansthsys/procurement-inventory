@@ -47,7 +47,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.ENUM("process", "approve", "reject"),
       },
-      pickup_date: {
+      due_date: {
         type: Sequelize.DATE,
       },
       createdAt: {
