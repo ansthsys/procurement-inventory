@@ -5,7 +5,7 @@ class ProcurementController {
     const { status } = req.query;
     const allowedStatus = ["process", "approve", "reject"];
 
-    if (status && allowedStatus !== -1) {
+    if (status && allowedStatus.indexOf(status) !== -1) {
       const data = await Item.findAll({
         where: { status },
         include: {
