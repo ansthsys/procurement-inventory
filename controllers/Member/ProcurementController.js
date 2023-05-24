@@ -63,6 +63,51 @@ class ProcurementController {
       data,
     });
   }
+
+  static async insert(req, res) {
+    const { id: userId } = req.user;
+    const {
+      name,
+      category,
+      qty,
+      price,
+      description,
+      url_request,
+      pickup_date,
+    } = req.body;
+
+    const pickupDate = new Date();
+    pickupDate.setDate(pickupDate.getDate() + 2);
+    pickupDate.toLocaleDateString("id-ID");
+
+    if (!name || !category || !qty || !price) {
+      return res.status(400).json({
+        success: false,
+        message: "field name, category, qty, price is required",
+      });
+    }
+    
+    const data = await Item.create({
+      userId,
+      name,
+      category,
+      qty,
+      price,
+      total_price: qty * price,
+      description,
+      url_request,
+      status: "process",
+      pickup_date: !pickup_date ? pickupDate : pickup_date,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "inventory request successfully",
+      data,
+    });
+  }
 }
 
 module.exports = ProcurementController;
