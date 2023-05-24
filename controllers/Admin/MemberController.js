@@ -118,7 +118,7 @@ class MemberController {
     const data = await User.update(
       {
         name: name || oldData.name,
-        password: bcrypt.hashSync(password, 8) || oldData.password,
+        password: password ? bcrypt.hashSync(password, 8) : oldData.password,
         role: role || oldData.role,
         status: status || oldData.status,
         updatedAt: new Date(),
