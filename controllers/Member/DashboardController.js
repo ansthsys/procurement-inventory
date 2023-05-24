@@ -1,6 +1,6 @@
-const { Item } = require("../models");
+const { Item } = require("../../models");
 
-class DashboardAdminController {
+class DashboardController {
   static async index(req, res) {
     const { id: userId } = req.user;
     const total = await Item.count({ where: { userId } });
@@ -27,4 +27,4 @@ class DashboardAdminController {
   }
 }
 
-module.exports = DashboardAdminController;
+module.exports = DashboardController;
