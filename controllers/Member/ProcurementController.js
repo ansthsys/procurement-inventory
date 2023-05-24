@@ -73,12 +73,12 @@ class ProcurementController {
       price,
       description,
       url_request,
-      pickup_date,
+      due_date,
     } = req.body;
 
-    const pickupDate = new Date();
-    pickupDate.setDate(pickupDate.getDate() + 2);
-    pickupDate.toLocaleDateString("id-ID");
+    const dueDate = new Date();
+    dueDate.setDate(dueDate.getDate() + 2);
+    dueDate.toLocaleDateString("id-ID");
 
     if (!name || !category || !qty || !price) {
       return res.status(400).json({
@@ -97,7 +97,7 @@ class ProcurementController {
       description,
       url_request,
       status: "process",
-      pickup_date: !pickup_date ? pickupDate : pickup_date,
+      due_date: !due_date ? dueDate : due_date,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
