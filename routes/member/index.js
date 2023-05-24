@@ -4,6 +4,9 @@ const authMiddleware = require("../../middlewares/auth");
 const DashboardController = require("../../controllers/Member/DashboardController");
 const ProcurementContontroller = require("../../controllers/Member/ProcurementController");
 
+/**
+ *  Dashboard for member
+ */
 router.get("/", authMiddleware, DashboardController.index);
 
 /**
