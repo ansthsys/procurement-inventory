@@ -1,4 +1,4 @@
-const { User, Item, History } = require("../models");
+const { User, Item, History } = require("../../models");
 
 class ProcurementController {
   static async index(req, res) {

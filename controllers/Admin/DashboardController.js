@@ -1,6 +1,6 @@
-const { User, Item } = require("../models");
+const { User, Item } = require("../../models");
 
-class DashboardAdminController {
+class DashboarController {
   static async index(req, res) {
     const member = await User.count();
     const memberActive = await User.count({ where: { status: "active" } });
@@ -31,4 +31,4 @@ class DashboardAdminController {
   }
 }
 
-module.exports = DashboardAdminController;
+module.exports = DashboarController;

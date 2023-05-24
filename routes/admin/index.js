@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../../middlewares/auth");
 const adminMiddleware = require("../../middlewares/admin");
-const DashboardAdminController = require("../../controllers/DashboardAdminController");
-const MemberController = require("../../controllers/MemberController");
-const ProcurementController = require("../../controllers/ProcurementController");
+const DashboardController = require("../../controllers/Admin/DashboardController");
+const MemberController = require("../../controllers/Admin/MemberController");
+const ProcurementController = require("../../controllers/Admin/ProcurementController");
 
 /**
  *  Dashboard for admin
@@ -13,7 +13,7 @@ router.get(
   "/admin",
   authMiddleware,
   adminMiddleware,
-  DashboardAdminController.index
+  DashboardController.index
 );
 
 /**
