@@ -1,10 +1,23 @@
 const { User, Item, History } = require("../../models");
+const { Op } = require("sequelize");
 
 class ProcurementController {
   static async index(req, res) {
     const { id: userId } = req.user;
-    const { status } = req.query;
+    const { status, search } = req.query;
     const allowedStatus = ["process", "approve", "reject"];
+
+    if (search) {
+      const data = await Item.findAll({
+        where: { userId, name: { [Op.substring]: search } },
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: `get all data procurement with search`,
+        data,
+      });
+    }
 
     if (status && allowedStatus.indexOf(status) !== -1) {
       const data = await Item.findAll({
@@ -66,15 +79,8 @@ class ProcurementController {
 
   static async insert(req, res) {
     const { id: userId } = req.user;
-    const {
-      name,
-      category,
-      qty,
-      price,
-      description,
-      url_request,
-      due_date,
-    } = req.body;
+    const { name, category, qty, price, description, url_request, due_date } =
+      req.body;
 
     const dueDate = new Date();
     dueDate.setDate(dueDate.getDate() + 2);
@@ -86,7 +92,7 @@ class ProcurementController {
         message: "field name, category, qty, price is required",
       });
     }
-    
+
     const data = await Item.create({
       userId,
       name,
