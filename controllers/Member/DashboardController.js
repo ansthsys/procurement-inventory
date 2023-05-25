@@ -14,14 +14,23 @@ class DashboardController {
       where: { userId, status: "reject" },
     });
 
+    const lastRequest = await Item.findAll({
+      where: { userId, status: "process" },
+      order: [["createdAt", "DESC"]],
+      limit: 5,
+    });
+
     return res.status(200).json({
       success: true,
       message: "get data for dashboard",
-      requestInventory: {
-        total,
-        processed: processed,
-        approved: approved,
-        rejected: rejected,
+      data: {
+        requestInventory: {
+          total,
+          processed: processed,
+          approved: approved,
+          rejected: rejected,
+        },
+        lastRequest,
       },
     });
   }
