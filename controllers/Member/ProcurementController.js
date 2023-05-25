@@ -1,4 +1,4 @@
-const { User, Item, History } = require("../../models");
+const { User, Item } = require("../../models");
 const { Op } = require("sequelize");
 
 class ProcurementController {
