@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
+const { access_tokens } = require("../models");
 
 const auth = async (req, res, next) => {
   const authorization = req.headers?.authorization?.split(" ");
@@ -11,24 +11,27 @@ const auth = async (req, res, next) => {
     });
   }
 
-  jwt.verify(authorization[1], process.env.JWT_KEY, async (err, data) => {
+  const data = await access_tokens.findOne({
+    where: { token: authorization[1] },
+  });
+
+  if (!data) {
+    return res.status(401).json({
+      success: false,
+      message: "invalid token",
+    });
+  }
+
+  jwt.verify(data.token, process.env.JWT_KEY, async (err, { user }) => {
     if (err) {
       return res.status(401).json({
         success: false,
-        message: "invalid credentials",
-      });
-    }
-
-    const user = await User.findByPk(data.id);
-
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "invalid token",
+        message: "token expired",
       });
     }
 
     req.user = user;
+    req.token = data.token;
     next();
   });
 };
