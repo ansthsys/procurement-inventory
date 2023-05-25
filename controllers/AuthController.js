@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
-const { User } = require("../models");
+const { User, access_tokens } = require("../models");
 
 class AuthController {
   static async login(req, res) {
@@ -37,15 +37,24 @@ class AuthController {
 
       const token = jwt.sign(
         {
-          id: user.id,
-          username: user.username,
-          email: user.email,
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+          },
         },
         process.env.JWT_KEY,
         {
           expiresIn: "30m",
         }
       );
+
+      await access_tokens.create({
+        userId: user.id,
+        name: "login token",
+        token,
+      });
 
       res.status(200).json({
         success: true,
