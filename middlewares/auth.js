@@ -19,11 +19,14 @@ const auth = async (req, res, next) => {
       });
     }
 
-    const user = await User.findOne({
-      where: {
-        id: data.id,
-      },
-    });
+    const user = await User.findByPk(data.id);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "invalid token",
+      });
+    }
 
     req.user = user;
     next();
