@@ -6,6 +6,25 @@ class ProcurementController {
     const { id: userId } = req.user;
     const { status, search } = req.query;
     const allowedStatus = ["process", "approve", "reject"];
+    const canUseStatus = status && allowedStatus.indexOf(status) !== -1;
+
+    if (canUseStatus && search) {
+      const data = await Item.findAll({
+        where: {
+          userId,
+          status,
+          name: {
+            [Op.substring]: search,
+          },
+        },
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: `get all data procurement with filter search and status`,
+        data,
+      });
+    }
 
     if (search) {
       const data = await Item.findAll({
@@ -19,7 +38,7 @@ class ProcurementController {
       });
     }
 
-    if (status && allowedStatus.indexOf(status) !== -1) {
+    if (canUseStatus) {
       const data = await Item.findAll({
         where: { userId, status },
       });
