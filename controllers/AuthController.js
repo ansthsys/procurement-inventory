@@ -72,6 +72,24 @@ class AuthController {
       });
     }
   }
+
+  static async logout(req, res) {
+    const data = await access_tokens.destroy({
+      where: { token: req.token },
+    });
+
+    if (!data) {
+      return res.status(400).json({
+        success: false,
+        message: "failed to logout",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "success logged out",
+    });
+  }
 }
 
 module.exports = AuthController;
