@@ -11,6 +11,12 @@ class DashboarController {
     const itemApproved = await Item.count({ where: { status: "approve" } });
     const itemRejected = await Item.count({ where: { status: "reject" } });
 
+    const lastRequest = await Item.findAll({
+      where: { status: "process" },
+      order: [["createdAt", "DESC"]],
+      limit: 5,
+    });
+
     return res.status(200).json({
       success: true,
       message: "get data for dashboard",
@@ -26,6 +32,7 @@ class DashboarController {
           approved: itemApproved,
           rejected: itemRejected,
         },
+        lastRequest
       },
     });
   }
